@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# venv
+.venv/
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Project
+.env
+*.log
+*.duckdb
+*.duckdb.wal
+
+# Derived data (raw downloads + warehouse outputs)
+data/raw/
+data/warehouse/
+
+# Notebook outputs
+.ipynb_checkpoints/
+
+# Build
+dist/
+build/

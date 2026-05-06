@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "open-data-etl"
+version = "0.1.0"
+description = "Batch ETL pipeline ingesting French open-data DVF (real-estate transactions) into a Parquet warehouse with a star-schema model and DuckDB views."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Wassim Fayala", email = "wassimfayala2@gmail.com" }]
+requires-python = ">=3.11"
+
+dependencies = [
+    "polars>=1.10.0",
+    "duckdb>=1.1.0",
+    "pyarrow>=18.0.0",
+    "httpx>=0.28.0",
+    "tenacity>=9.0.0",
+    "pydantic>=2.9.0",
+    "pydantic-settings>=2.6.0",
+    "loguru>=0.7.0",
+    "typer>=0.15.0",
+    "rich>=13.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-cov>=6.0.0",
+    "respx>=0.21.0",
+    "ruff>=0.8.0",
+    "black>=24.10.0",
+    "pre-commit>=4.0.0",
+    "detect-secrets>=1.5.0",
+    "ipykernel>=6.29.0",
+]
+
+[project.scripts]
+dvf-etl = "dvf_etl.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/wxssxm/open-data-etl"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dvf_etl"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["B011"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+
+[tool.coverage.run]
+source = ["src/dvf_etl"]
+branch = true
+omit = ["*/cli.py"]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover", "if __name__ == .__main__.:", "raise NotImplementedError"]
+show_missing = true
